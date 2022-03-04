@@ -12,12 +12,14 @@ import movie.booking.program.vo.Movie;
  */
 public class MovieManager {
 	private Scanner sc = new Scanner(System.in);
+	int movieIndex = 0;
+	int seatIndex = 0;
 	
 	private List<Movie> yongSan = new ArrayList<>();
 	private List<Movie> hongDae = new ArrayList<>();
 	private List<Movie> gangNam = new ArrayList<>();
 	
-	String selectSeat = null;
+	List<String> selectSeat = new ArrayList<>();
 	List<Movie> temp = new ArrayList<>();
 	List<Movie> completeMovieList = new ArrayList<>(); 
 	
@@ -181,15 +183,15 @@ public class MovieManager {
 			switch(lastTheaterChoice) {
 			case 1 :
 				completeMovieList.add(temp.get(0));
-				System.out.println(completeMovieList);
+				System.out.println(completeMovieList.get(movieIndex++));
 				break;
 			case 2 :
 				completeMovieList.add(temp.get(1));
-				System.out.println(completeMovieList);
+				System.out.println(completeMovieList.get(movieIndex++));
 				break;
 			case 3 :
 				completeMovieList.add(temp.get(2));
-				System.out.println(completeMovieList);
+				System.out.println(completeMovieList.get(movieIndex++));
 				break;
 			default : System.out.println("잘못 입력하셨습니다.");
 			}
@@ -234,7 +236,7 @@ public class MovieManager {
 			j = 1;
 			for(int i = 0; i < gangNam.size(); i++) {
 				System.out.println(j++ + ". " +gangNam.get(i));
-				temp.add(hongDae.get(i));
+				temp.add(gangNam.get(i));
 			}
 			if(afterTheaterChoice()) {
 				return;
@@ -279,11 +281,13 @@ public class MovieManager {
 	 * 
 	 */
 	public void myBooking() {
+		
 		System.out.println("----예매 내역----");
-		for(Movie movie : completeMovieList) {
-			System.out.println(movie);
+		for(int i = 0; i < completeMovieList.size(); i++) {
+			System.out.println(completeMovieList.get(i));
+			System.out.println("좌석 : " + selectSeat.get(i));
 		}
-		System.out.println("좌석 : " + selectSeat);
+		
 		
 	}
 	
@@ -297,42 +301,42 @@ public class MovieManager {
 		case "A" :
 			for(int i = 1; i <=6; i++) {
 				if(i == columnChoice) {
-					selectSeat = rowChoice + columnChoice;
+					selectSeat.add(rowChoice + columnChoice);
 				}
 			}
 			break;
 		case "B" :
 			for(int i = 1; i <=6; i++) {
 				if(i == columnChoice) {
-					selectSeat = rowChoice + columnChoice;
+					selectSeat.add(rowChoice + columnChoice);
 				}
 			}
 			break;
 		case "C" :
 			for(int i = 1; i <=6; i++) {
 				if(i == columnChoice) {
-					selectSeat = rowChoice + columnChoice;
+					selectSeat.add(rowChoice + columnChoice);
 				}
 			}
 			break;
 		case "D" :
 			for(int i = 1; i <=6; i++) {
 				if(i == columnChoice) {
-					selectSeat = rowChoice + columnChoice;
+					selectSeat.add(rowChoice + columnChoice);
 				}
 			}
 			break;
 		case "E" :
 			for(int i = 1; i <=6; i++) {
 				if(i == columnChoice) {
-					selectSeat = rowChoice + columnChoice;
+					selectSeat.add(rowChoice + columnChoice);
 				}
 			}
 			break;
 		case "F" :
 			for(int i = 1; i <=6; i++) {
 				if(i == columnChoice) {
-					selectSeat = rowChoice + columnChoice;
+					selectSeat.add(rowChoice + columnChoice);
 				}
 			}
 			break;
@@ -341,7 +345,7 @@ public class MovieManager {
 			System.out.println(">> 행을 선택해 주세요(A~F) : ");
 			break;
 		}
-		return selectSeat;
+		return selectSeat.get(seatIndex++);
 		
 	}
 	

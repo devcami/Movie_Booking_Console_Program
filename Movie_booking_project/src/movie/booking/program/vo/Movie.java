@@ -69,8 +69,9 @@ public class Movie {
 
 	@Override
 	public String toString() {
-		return theater + " " + room + "관 " + movieName + " *" + ageLimit + "세 이상 관람 가능*"
-			 + "\n영화 시간 : " + movieTime + "\n"; 
+		return theater + " " + room + "관 " + "<"+ movieName + ">" + " *" + ageLimit + "세 이상 관람 가능*"
+			 + "\n영화 시간 : " + movieTime 
+			 ; 
 	}
 	
 	
