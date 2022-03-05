@@ -7,9 +7,11 @@ package movie.booking.program.menu;
  *	예매 취소
  */
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import movie.booking.program.contoller.MovieManager;
+import movie.booking.program.controller.MovieManager;
+import movie.booking.program.vo.Movie;
 
 public class View {
 	private Scanner sc = new Scanner(System.in);
@@ -17,12 +19,13 @@ public class View {
 	private MovieManager manager = new MovieManager();
 	private int choiceMovie;
 	private int choiceTheater;
-	private String[][] seats = {{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
-			{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
-			{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
-			{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
-			{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
-			{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "}};
+	private int choiceMyBooking;
+	private Movie selectedMovie = null;		
+	
+	private int realIndex = 0;
+	
+	private char rowChoice;
+	private int columnChoice;
 	
 	private String mainString = "---- Movie Booking Menu ----\n"
 							  + "1. 현재 상영 영화 스케쥴 출력\n"
@@ -33,61 +36,63 @@ public class View {
 							  + "----------------------------\n"
 							  + ">> 메뉴 선택 : ";
 	
+
 	
-	
-//	public View() {
-//		
-//	}
-//
-//
-//	public View(String[][] seats) {
-//		this.seats = seats;
-//		for(int i = 0; i < seats.length; i++) {
-//			for(int j = 0; j < seats[i].length; j++) {
-//				seats[i][j] = "☐ ";
-//			}
-//		}
-//	}
-
-
-
 	public void mainMenu() {
+		
 		while(true) {
+			System.out.println();
 			System.out.print(mainString);
-			int choice = sc.nextInt();
+			
+			String choice = sc.next();
 			
 			switch(choice) {
-			case 1 : 
+			case "1" : 
 				manager.printSchedule(theaterMenu());
 				break;
-			case 2 : 
-				if(manager.bookingByMovie(movieMenu())) {
-					seatsMenu();
-				} else {
-					return;
+			case "2" : 
+				selectedMovie = manager.bookingByMovie(movieMenu());
+				if(selectedMovie == null) {
+					break;
+				} else{ 
+					seatsMenu(selectedMovie);
 				}
+
 				if(checking()) {
-					manager.myBooking();	
+					manager.nowBookingPrint();	
 				} else {
-					
+					manager.deleteBooking(realIndex);
+					selectedMovie.getSeats()[rowChoice - 65][columnChoice - 1] = "︎☐ ";
 				}
-				
 				break;
-			case 3 : 
-				manager.bookingByTheater(theaterMenu());
-				seatsMenu();
+
+			case "3" : 
+				selectedMovie = manager.bookingByTheater(theaterMenu());
+				if(selectedMovie == null) {
+					break;
+				}
+				else{
+					seatsMenu(selectedMovie);
+				}
+
 				if(checking()) {
-					manager.myBooking();
+					manager.nowBookingPrint();
 				} else {
-					
+					manager.deleteBooking(realIndex);
+					selectedMovie.getSeats()[rowChoice - 65][columnChoice - 1] = "︎☐ ";
 				}
 				break;
-			case 4 : manager.myBooking();
+
+			case "4" : 
+				manager.myBooking(myBookingMenu());
 				break;
-			case 9 : return;
-			default : System.out.println("잘못 입력하셨습니다.");
+
+			case "9" : return;
+
+			default : System.out.println("잘못 입력하셨습니다. 숫자만 입력해주세요."); continue;
 			}
 		}
+
 	}
 	
 	
@@ -119,77 +124,100 @@ public class View {
 		choiceTheater = sc.nextInt();
 		return choiceTheater;
 	}
-	
-	//좌석선택
-	public void seatsMenu() {
-		while(true) {
 
+
+	//좌석선택
+	public void seatsMenu(Movie movie) {
+		
+		while(true) {
 			//좌석 출력
 			System.out.println("--------------------");
 			System.out.println("  1 2 3 4 5 6");
-
+			
 			char column = 'A';
-			for(int i = 0; i < seats.length; i++) {
+			for(int i = 0; i < movie.getSeats().length; i++) {
 				System.out.print((char)(column + i) + " ");
-				for(int j = 0; j < seats[i].length; j++) {
-					System.out.print(seats[i][j]);
+				for(int j = 0; j < movie.getSeats()[i].length; j++) {
+					System.out.print(movie.getSeats()[i][j]);
 				}
 				System.out.println();
 			}
 			System.out.println("--------------------");
-
 			System.out.println(">> 좌석 선택");
-			System.out.print(">> 행을 선택해주세요 (A~F) : ");
-			char rowChoice = sc.next().charAt(0);
-			System.out.print(">> 열을 선택해주세요 (1~6) : ");
-			int columnChoice = sc.nextInt();
+			
+			
+			while(true) {
+				System.out.print(">> 행을 선택해주세요 (A~F) : ");
+				try {
+					rowChoice = sc.next().charAt(0);
+					if(rowChoice < 'A' || rowChoice >'F')
+						System.out.println("A~F중에서 선택해 주세요.");
+					else
+						break;					
+				} catch(InputMismatchException e) {
+					System.out.println("A~F 범위의 알파벳만 입력해주세요.");
+					continue;
+				}
+			}
+			
+			while(true) {
+				System.out.print(">> 열을 선택해주세요 (1~6) : ");
+				try {
+					columnChoice = sc.nextInt();
+					if(columnChoice < 1 || columnChoice > 6)
+						System.out.println("1~6중에서 선택해주세요.");
+					else
+						break;					
+				} catch(InputMismatchException e) {
+					System.out.println("1~6범위의 숫자만 입력해주세요.");
+					continue;
+				}
+			}
 
 			String selectSeat = Character.toString(rowChoice) + columnChoice;
-
-			if(seats[(int)rowChoice-65][columnChoice-1].equals("◼︎ ")){
+			
+			if(movie.getSeats()[(int)rowChoice-65][columnChoice-1].equals("◼︎ ")){
 				System.out.println(selectSeat + "은 이미 선택된 좌석입니다. 다시 선택해주세요.");
 			} 
 			else {
 				System.out.println(selectSeat + "으로 선택하셨습니다.");
-				seats[rowChoice - 65][columnChoice - 1] = "◼︎ ";
-				manager.takenSeat(Character.toString(rowChoice), columnChoice);
+				movie.getSeats()[rowChoice - 65][columnChoice - 1] = "◼︎ ";
+				manager.takenSeat(selectSeat);
 				break;
 			}
-
-			//			manager.takenSeat(Character.toString(rowChoice), columnChoice);
-
-			//		outer:
-			//		for(int i = 0; i < seats.length; i++) {
-			//			for(int j = 0; j < seats[i].length; j++) {
-			//				if(seats[i][j].equals("◼︎ ")){
-			//					System.out.println(selectSeat + "은 이미 선택된 좌석입니다.");
-			//					break outer;
-			//				}else {
-			//					System.out.println(selectSeat + "으로 선택하셨습니다.");
-			//					break outer;
-			//				}
-			//			}
-			//		}
-
 		
 		}
-		
-		
+	
 	}
+
 	// 최종확인
 	public boolean checking() {
 		while(true) {
-			System.out.println(">> 예매 하시겠습니까 ? (y/n) : ");
+			System.out.print(">> 예매 하시겠습니까 ? (y/n) : ");
 			char yn = sc.next().charAt(0);
 			if(yn == 'y') {
 				System.out.println("예매가 정상처리되었습니다.");
+				realIndex++;
 				return true;
 			} else if(yn == 'n') {
-				System.out.println("예매에 실패하였습니다.");
+				System.out.println("예매에 실패했습니다.");
 				return false;
 			} else {
 				System.out.println("잘못 입력하셨습니다. y/n중 입력해주세요.");
 			}
 		}
+	}
+	
+	public int myBookingMenu() {
+		String myBookingString = "---- 메뉴 선택 ----\n"
+				+ "1. 나의 예매 내역 확인\n"
+				+ "2. 예매 내역 취소\n"
+				+ "0. 뒤로가기\n"
+				+ "--------------------\n"
+				+ ">> 메뉴 선택 : ";
+		
+		System.out.print(myBookingString);
+		choiceMyBooking = sc.nextInt();
+		return choiceMyBooking;
 	}
 }
