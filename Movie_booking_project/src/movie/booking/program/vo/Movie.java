@@ -11,6 +11,7 @@ public class Movie {
 	private int room;
 	private int ageLimit;
 	private String movieTime;
+	private String[][] seats = new String[6][6];
 	
 	
 	public Movie(String movieName, String theater, int room, int ageLimit, String movieTime) {

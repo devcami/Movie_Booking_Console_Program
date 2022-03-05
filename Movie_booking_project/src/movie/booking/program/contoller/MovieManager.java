@@ -80,9 +80,9 @@ public class MovieManager {
 	/**
 	 * main menu 2. 영화별 예매하기
 	 */
-	public void bookingByMovie(int choiceMovie) {
+	public boolean bookingByMovie(int choiceMovie) {
 		System.out.println("----- 극장 선택 -----");
-		int j = 1;
+		int j;
 		
 		switch(choiceMovie) {
 		case 1 :
@@ -101,11 +101,9 @@ public class MovieManager {
 					temp.add(gangNam.get(i));
 				}
 			}
-			if(afterMovieChoice()) {
-				return;
-			}
+			if(afterTheaterChoice())return true;
+			else return false;
 			
-			break;
 		case 2 :
 			j = 1;
 			for(int i = 0; i< yongSan.size(); i++) {
@@ -123,10 +121,8 @@ public class MovieManager {
 
 				}
 			}
-			if(afterMovieChoice()) {
-				return;
-			}
-			break;
+			if(afterTheaterChoice())return true;
+			else return false;
 		case 3 :
 			j = 1;
 			for(int i = 0; i< yongSan.size(); i++) {
@@ -144,10 +140,8 @@ public class MovieManager {
 
 				}
 			}
-			if(afterMovieChoice()) {
-				return;
-			}
-			break;
+			if(afterTheaterChoice())return true;
+			else return false;
 		case 4 :
 			j = 1;
 			for(int i = 0; i< yongSan.size(); i++) {
@@ -166,46 +160,52 @@ public class MovieManager {
 				}
 				
 			}
-			if(afterMovieChoice()) {
-				return;
-			}
-			break;
-		case 0 : return;
-		default: System.out.println("잘못 입력하셨습니다.");
+			if(afterTheaterChoice())return true;
+			else return false;
+		case 0 : return false;
+		default: {
+			System.out.println("잘못 입력하셨습니다.");
+			return false;
+		}
 		}
 	}
 	
 	// 2. 영화 선택 후 극장 선택 
 	public boolean afterMovieChoice() {
-		System.out.println(">> 극장을 선택해 주세요 : ");
-		int lastTheaterChoice = sc.nextInt();
-		if(lastTheaterChoice <= temp.size()) {
-			switch(lastTheaterChoice) {
-			case 1 :
-				completeMovieList.add(temp.get(0));
-				System.out.println(completeMovieList.get(movieIndex++));
-				break;
-			case 2 :
-				completeMovieList.add(temp.get(1));
-				System.out.println(completeMovieList.get(movieIndex++));
-				break;
-			case 3 :
-				completeMovieList.add(temp.get(2));
-				System.out.println(completeMovieList.get(movieIndex++));
-				break;
-			default : System.out.println("잘못 입력하셨습니다.");
+		
+		outer :
+		while(true) {
+			System.out.println(">> 극장을 선택해 주세요 : ");
+			int lastTheaterChoice = sc.nextInt();
+			if(lastTheaterChoice <= temp.size()) {
+				switch(lastTheaterChoice) {
+				case 1 :
+					completeMovieList.add(temp.get(0));
+					System.out.println(completeMovieList.get(movieIndex++));
+					return true;
+				case 2 :
+					completeMovieList.add(temp.get(1));
+					System.out.println(completeMovieList.get(movieIndex++));
+					return true;
+				case 3 :
+					completeMovieList.add(temp.get(2));
+					System.out.println(completeMovieList.get(movieIndex++));
+					return true;
+				default : 
+					System.out.println("잘못 입력하셨습니다.");
+					continue outer;
+				}
+			} else {
+				System.out.println("잘못된 입력입니다.");
+				continue outer;
 			}
-			return true;
-		} else {
-			System.out.println("잘못된 입력입니다.");
-			return false;
 		}
 	}
 	
 	/**
 	 *  main menu 3. 극장별 예매하기
 	 */
-	public void bookingByTheater(int choiceTheater) {
+	public boolean bookingByTheater(int choiceTheater) {
 
 		int j;
 		switch(choiceTheater) {
@@ -216,10 +216,8 @@ public class MovieManager {
 				System.out.println(j++ + ". " +yongSan.get(i));
 				temp.add(yongSan.get(i));
 			}
-			if(afterTheaterChoice()) {
-				return;
-			}
-			break;
+			if(afterTheaterChoice())return true;
+			else return false;
 		//홍대
 		case 2 : 
 			j = 1;
@@ -227,10 +225,8 @@ public class MovieManager {
 				System.out.println(j++ + ". " +hongDae.get(i));
 				temp.add(hongDae.get(i));
 			}
-			if(afterTheaterChoice()) {
-				return;
-			}
-			break;
+			if(afterTheaterChoice())return true;
+			else return false;
 		//강남
 		case 3 :
 			j = 1;
@@ -238,41 +234,43 @@ public class MovieManager {
 				System.out.println(j++ + ". " +gangNam.get(i));
 				temp.add(gangNam.get(i));
 			}
-			if(afterTheaterChoice()) {
-				return;
-			}
-			break;
-		case 0 : return;
-		default : System.out.println("잘못 입력하셨습니다.");
+			if(afterTheaterChoice())return true;
+			else return false;
+		case 0 : return false;
+		default : System.out.println("잘못 입력하셨습니다."); return false;
 		}
 
 	}
 	
 	//3. 극장선택 후 영화 선택 
-	//수정필요!!!
 	public boolean afterTheaterChoice() {
-		System.out.println(">> 영화를 선택해 주세요 : ");
-		int lastMovieChoice = sc.nextInt();
-		if(lastMovieChoice <= temp.size()) {
-			switch(lastMovieChoice){
-			case 1 :
-				completeMovieList.add(temp.get(0));
-				System.out.println(completeMovieList);
-				break;
-			case 2 :
-				completeMovieList.add(temp.get(1));
-				System.out.println(completeMovieList);
-				break;
-			case 3 :
-				completeMovieList.add(temp.get(2));
-				System.out.println(completeMovieList);
-				break;
-			default : System.out.println("잘못 입력하셨습니다.");
+		
+		outer : 
+		while(true) {
+			System.out.println(">> 영화를 선택해 주세요 : ");
+			int lastMovieChoice = sc.nextInt();
+			if(lastMovieChoice <= temp.size()) {
+				switch(lastMovieChoice){
+				case 1 :
+					completeMovieList.add(temp.get(0));
+					System.out.println(completeMovieList);
+					return true;
+				case 2 :
+					completeMovieList.add(temp.get(1));
+					System.out.println(completeMovieList);
+					return true;
+				case 3 :
+					completeMovieList.add(temp.get(2));
+					System.out.println(completeMovieList);
+					return true;
+				default : System.out.println("잘못 입력하셨습니다.");
+					continue outer;
+				}
+				
+			} else {
+				System.out.println("잘못된 입력입니다.");
+				continue outer;
 			}
-			return true;
-		} else {
-			System.out.println("잘못된 입력입니다.");
-			return false;
 		}
 	}
 	

@@ -17,7 +17,12 @@ public class View {
 	private MovieManager manager = new MovieManager();
 	private int choiceMovie;
 	private int choiceTheater;
-	private String[][] seats = new String[6][6];
+	private String[][] seats = {{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
+			{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
+			{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
+			{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
+			{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
+			{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "}};
 	
 	private String mainString = "---- Movie Booking Menu ----\n"
 							  + "1. 현재 상영 영화 스케쥴 출력\n"
@@ -30,6 +35,22 @@ public class View {
 	
 	
 	
+//	public View() {
+//		
+//	}
+//
+//
+//	public View(String[][] seats) {
+//		this.seats = seats;
+//		for(int i = 0; i < seats.length; i++) {
+//			for(int j = 0; j < seats[i].length; j++) {
+//				seats[i][j] = "☐ ";
+//			}
+//		}
+//	}
+
+
+
 	public void mainMenu() {
 		while(true) {
 			System.out.print(mainString);
@@ -40,8 +61,11 @@ public class View {
 				manager.printSchedule(theaterMenu());
 				break;
 			case 2 : 
-				manager.bookingByMovie(movieMenu());
-				seatsMenu();
+				if(manager.bookingByMovie(movieMenu())) {
+					seatsMenu();
+				} else {
+					return;
+				}
 				if(checking()) {
 					manager.myBooking();	
 				} else {
@@ -98,42 +122,57 @@ public class View {
 	
 	//좌석선택
 	public void seatsMenu() {
-		//좌석 출력
-		System.out.println("--------------------");
-		System.out.println("  " + "1 2 3 4 5 6");
-		char column = 'A';
-		for(int i = 0; i < seats.length; i++) {
-			System.out.print((char)(column + i) + " ");
-			for(int j = 0; j < seats[i].length; j++) {
-				seats[i][j] = "☐ ";
-				System.out.print(seats[i][j]);
-			}
-			System.out.println();
-		}
-		System.out.println("--------------------");
-		System.out.println(">> 좌석 선택");
-		System.out.print(">> 행을 선택해주세요 (A~F) : ");
-		String rowChoice = sc.next();
-		System.out.print(">> 열을 선택해주세요 (1~6) : ");
-		int columnChoice = sc.nextInt();
-		
-		String selectSeat = manager.takenSeat(rowChoice, columnChoice);
-		
-		outer:
-		for(int i = 0; i < seats.length; i++) {
-			for(int j = 0; j < seats[i].length; j++) {
-				if(seats[i][j].equals("◼︎ ")){
-					System.out.println(selectSeat + "은 이미 선택된 좌석입니다.");
-					break outer;
-				}else {
-					System.out.println(selectSeat + "으로 선택하셨습니다.");
-					break outer;
+		while(true) {
+
+			//좌석 출력
+			System.out.println("--------------------");
+			System.out.println("  1 2 3 4 5 6");
+
+			char column = 'A';
+			for(int i = 0; i < seats.length; i++) {
+				System.out.print((char)(column + i) + " ");
+				for(int j = 0; j < seats[i].length; j++) {
+					System.out.print(seats[i][j]);
 				}
+				System.out.println();
 			}
+			System.out.println("--------------------");
+
+			System.out.println(">> 좌석 선택");
+			System.out.print(">> 행을 선택해주세요 (A~F) : ");
+			char rowChoice = sc.next().charAt(0);
+			System.out.print(">> 열을 선택해주세요 (1~6) : ");
+			int columnChoice = sc.nextInt();
+
+			String selectSeat = Character.toString(rowChoice) + columnChoice;
+
+			if(seats[(int)rowChoice-65][columnChoice-1].equals("◼︎ ")){
+				System.out.println(selectSeat + "은 이미 선택된 좌석입니다. 다시 선택해주세요.");
+			} 
+			else {
+				System.out.println(selectSeat + "으로 선택하셨습니다.");
+				seats[rowChoice - 65][columnChoice - 1] = "◼︎ ";
+				manager.takenSeat(Character.toString(rowChoice), columnChoice);
+				break;
+			}
+
+			//			manager.takenSeat(Character.toString(rowChoice), columnChoice);
+
+			//		outer:
+			//		for(int i = 0; i < seats.length; i++) {
+			//			for(int j = 0; j < seats[i].length; j++) {
+			//				if(seats[i][j].equals("◼︎ ")){
+			//					System.out.println(selectSeat + "은 이미 선택된 좌석입니다.");
+			//					break outer;
+			//				}else {
+			//					System.out.println(selectSeat + "으로 선택하셨습니다.");
+			//					break outer;
+			//				}
+			//			}
+			//		}
+
+		
 		}
-		
-			
-		
 		
 		
 	}
