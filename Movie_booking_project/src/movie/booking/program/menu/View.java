@@ -28,14 +28,15 @@ public class View {
 	private String tempColumn;
 	private int columnChoice;
 	
-	private String mainString = "\n---- Movie Booking Menu ----\n"
-							  + "1. 현재 상영 영화 스케쥴 출력\n"
-							  + "2. 영화별 예매하기\n"
-							  + "3. 극장별 예매하기\n"
-							  + "4. 나의 예매내역\n"
-							  + "9. 종료\n"
-							  + "----------------------------\n"
-							  + ">> 메뉴 선택 : ";
+	private String mainString = "\n======= 🎬 Movie Booking Menu 🎬=======\n"
+							  + "\t1. 현재 상영 영화 스케쥴 출력\n"
+							  + "\t2. 영화별 예매하기\n"
+							  + "\t3. 극장별 예매하기\n"
+							  + "\t4. 나의 예매내역\n"
+							  + "\t9. 종료\n"
+							  + "----------------------------------------\n"
+							  + "\t"
+							  + "➜ 메뉴 선택 : ";
 	
 
 	
@@ -95,7 +96,7 @@ public class View {
 
 			case "9" : return;
 
-			default : System.err.println("선택지에 있는 번호만 입력해주세요."); continue;
+			default : System.err.println("❗️️선택지에 있는 번호만 입력해주세요❗️"); continue;
 			}
 		}
 
@@ -220,7 +221,7 @@ public class View {
 	
 	public String myBookingMenu() {
 		
-		String myBookingString = "---- 메뉴 선택 ----\n"
+		String myBookingString = "---- Menu ----\n"
 				+ "1. 나의 예매 내역 확인\n"
 				+ "2. 예매 내역 취소\n"
 				+ "0. 뒤로가기\n"
