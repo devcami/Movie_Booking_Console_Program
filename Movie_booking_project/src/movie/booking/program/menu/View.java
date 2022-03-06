@@ -17,17 +17,18 @@ public class View {
 	private Scanner sc = new Scanner(System.in);
 	
 	private MovieManager manager = new MovieManager();
-	private int choiceMovie;
-	private int choiceTheater;
-	private int choiceMyBooking;
+	private String choiceMovie;
+	private String choiceTheater;
+	private String choiceMyBooking;
 	private Movie selectedMovie = null;		
 	
 	private int realIndex = 0;
 	
 	private char rowChoice;
+	private String tempColumn;
 	private int columnChoice;
 	
-	private String mainString = "---- Movie Booking Menu ----\n"
+	private String mainString = "\n---- Movie Booking Menu ----\n"
 							  + "1. 현재 상영 영화 스케쥴 출력\n"
 							  + "2. 영화별 예매하기\n"
 							  + "3. 극장별 예매하기\n"
@@ -41,7 +42,6 @@ public class View {
 	public void mainMenu() {
 		
 		while(true) {
-			System.out.println();
 			System.out.print(mainString);
 			
 			String choice = sc.next();
@@ -84,12 +84,18 @@ public class View {
 				break;
 
 			case "4" : 
-				manager.myBooking(myBookingMenu());
-				break;
+				if(manager.myBooking(myBookingMenu())) {
+					break;
+				}
+				//삭제했을 때 realIndex--; 되어야 함!!
+				else {
+					realIndex--;
+					break;
+				}
 
 			case "9" : return;
 
-			default : System.out.println("잘못 입력하셨습니다. 숫자만 입력해주세요."); continue;
+			default : System.err.println("선택지에 있는 번호만 입력해주세요."); continue;
 			}
 		}
 
@@ -97,7 +103,8 @@ public class View {
 	
 	
 	//영화선택
-	public int movieMenu() {
+	public String movieMenu() {
+		
 		String movieString = "---- Movie List ----\n"
 				   + "1. 더 배트맨\n"
 				   + "2. 나이트메어 앨리\n"
@@ -107,12 +114,13 @@ public class View {
 				   + "--------------------\n"
 				   + ">> 영화 선택 : ";
 		System.out.print(movieString);
-		choiceMovie = sc.nextInt();
+		choiceMovie = sc.next();
 		return choiceMovie;
 		
 	}
 	//극장선택
-	public int theaterMenu() {
+	public String theaterMenu() {
+		
 		String theaterString = "---- Theater List ----\n"
 			     + "1. 용산점\n"
 			     + "2. 홍대점\n"
@@ -121,7 +129,7 @@ public class View {
 			     + "--------------------\n"
 			     + ">> 극장 선택 : ";
 		System.out.print(theaterString);
-		choiceTheater = sc.nextInt();
+		choiceTheater = sc.next();
 		return choiceTheater;
 	}
 
@@ -151,11 +159,11 @@ public class View {
 				try {
 					rowChoice = sc.next().charAt(0);
 					if(rowChoice < 'A' || rowChoice >'F')
-						System.out.println("A~F중에서 선택해 주세요.");
+						System.err.println("A~F중에서 선택해 주세요.");
 					else
 						break;					
 				} catch(InputMismatchException e) {
-					System.out.println("A~F 범위의 알파벳만 입력해주세요.");
+					System.err.println("A~F중에서 선택해 주세요.");
 					continue;
 				}
 			}
@@ -163,13 +171,14 @@ public class View {
 			while(true) {
 				System.out.print(">> 열을 선택해주세요 (1~6) : ");
 				try {
-					columnChoice = sc.nextInt();
-					if(columnChoice < 1 || columnChoice > 6)
-						System.out.println("1~6중에서 선택해주세요.");
+					tempColumn = sc.next();
+					if(Integer.parseInt(tempColumn) < 1 || Integer.parseInt(tempColumn) > 6)
+						System.err.println("1~6중에서 선택해주세요.");
 					else
+						columnChoice = Integer.parseInt(tempColumn);
 						break;					
-				} catch(InputMismatchException e) {
-					System.out.println("1~6범위의 숫자만 입력해주세요.");
+				} catch(NumberFormatException e) {
+					System.err.println("1~6중에서 선택해주세요.");
 					continue;
 				}
 			}
@@ -177,7 +186,7 @@ public class View {
 			String selectSeat = Character.toString(rowChoice) + columnChoice;
 			
 			if(movie.getSeats()[(int)rowChoice-65][columnChoice-1].equals("◼︎ ")){
-				System.out.println(selectSeat + "은 이미 선택된 좌석입니다. 다시 선택해주세요.");
+				System.err.println(selectSeat + "은 이미 선택된 좌석입니다. 다시 선택해주세요.");
 			} 
 			else {
 				System.out.println(selectSeat + "으로 선택하셨습니다.");
@@ -192,6 +201,7 @@ public class View {
 
 	// 최종확인
 	public boolean checking() {
+		
 		while(true) {
 			System.out.print(">> 예매 하시겠습니까 ? (y/n) : ");
 			char yn = sc.next().charAt(0);
@@ -200,15 +210,16 @@ public class View {
 				realIndex++;
 				return true;
 			} else if(yn == 'n') {
-				System.out.println("예매에 실패했습니다.");
+				System.err.println("n을 선택하셨습니다. 예매에 실패했습니다.");
 				return false;
 			} else {
-				System.out.println("잘못 입력하셨습니다. y/n중 입력해주세요.");
+				System.err.println("잘못 입력하셨습니다. y/n중 입력해주세요.");
 			}
 		}
 	}
 	
-	public int myBookingMenu() {
+	public String myBookingMenu() {
+		
 		String myBookingString = "---- 메뉴 선택 ----\n"
 				+ "1. 나의 예매 내역 확인\n"
 				+ "2. 예매 내역 취소\n"
@@ -217,7 +228,7 @@ public class View {
 				+ ">> 메뉴 선택 : ";
 		
 		System.out.print(myBookingString);
-		choiceMyBooking = sc.nextInt();
+		choiceMyBooking = sc.next();
 		return choiceMyBooking;
 	}
 }

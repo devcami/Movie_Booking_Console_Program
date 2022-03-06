@@ -47,196 +47,211 @@ public class MovieManager {
 	/**
 	 * main 1. 극장별 현재 상영 영화 스케쥴 출력
 	 */
-	public void printSchedule(int choiceTheater) {
+	public void printSchedule(String choiceTheater) {
+		
 			int j;
 			
 			switch(choiceTheater) {
-			case 1 : 
+			case "1" : 
 				j = 1;
 				for(int i = 0; i < yongSan.size(); i++) {
 					System.out.println(j++ + ". " +yongSan.get(i));
 				}
 				break;
-			case 2 : 
+			case "2" : 
 				j = 1;
 				for(int i = 0; i < hongDae.size(); i++) {
 					System.out.println(j++ + ". " +hongDae.get(i));
 				}
 				break;
-			case 3 :
+			case "3" :
 				j = 1;
 				for(int i = 0; i < gangNam.size(); i++) {
 					System.out.println(j++ + ". " +gangNam.get(i));
 				}
 				break;
-			case 0 : return;
-			default : System.out.println("잘못 입력하셨습니다.");
+			case "0" : return;
+			default : System.err.println("잘못 입력하셨습니다. 메인메뉴로 돌아갑니다.");
 			}
 	}
 
 	/**
 	 * main menu 2. 영화별 예매하기
 	 */
-	public Movie bookingByMovie(int choiceMovie) {
-		System.out.println("----- 극장 선택 -----");
-		int j;
+	public Movie bookingByMovie(String choiceMovie) {
 		
-		switch(choiceMovie) {
-		
-		case 1 :
-			j = 1;
-			for(int i = 0; i < yongSan.size(); i++) {
-				if(yongSan.get(i).getMovieName().equals("더 배트맨")) {
-					System.out.println(j++ + ". " + yongSan.get(i));
-					temp.add(yongSan.get(i));
-				}
-				if(hongDae.get(i).getMovieName().equals("더 배트맨")) {
-					System.out.println(j++ + ". " + hongDae.get(i));
-					temp.add(hongDae.get(i));
-				}
-				if(gangNam.get(i).getMovieName().equals("더 배트맨")) {
-					System.out.println(j++ + ". " + gangNam.get(i));
-					temp.add(gangNam.get(i));
-				}
-			}
-			
-			break;
-			
-		case 2 :
-			j = 1;
-			for(int i = 0; i< yongSan.size(); i++) {
-				if(yongSan.get(i).getMovieName().equals("나이트메어 앨리")) {
-					System.out.println(j++ + ". " + yongSan.get(i));
-					temp.add(yongSan.get(i));
-				}
-				if(hongDae.get(i).getMovieName().equals("나이트메어 앨리")) {
-					System.out.println(j++ + ". " + hongDae.get(i));
-					temp.add(hongDae.get(i));
-				}
-				if(gangNam.get(i).getMovieName().equals("나이트메어 앨리")) {
-					System.out.println(j++ + ". " + gangNam.get(i));
-					temp.add(gangNam.get(i));
+		outer:
+		while(true) {
+			int j;
+			switch(choiceMovie) {
 
+			case "1" :
+				System.out.println("----- 극장 선택 -----");
+				j = 1;
+				for(int i = 0; i < yongSan.size(); i++) {
+					if(yongSan.get(i).getMovieName().equals("더 배트맨")) {
+						System.out.println(j++ + ". " + yongSan.get(i));
+						temp.add(yongSan.get(i));
+					}
+					if(hongDae.get(i).getMovieName().equals("더 배트맨")) {
+						System.out.println(j++ + ". " + hongDae.get(i));
+						temp.add(hongDae.get(i));
+					}
+					if(gangNam.get(i).getMovieName().equals("더 배트맨")) {
+						System.out.println(j++ + ". " + gangNam.get(i));
+						temp.add(gangNam.get(i));
+					}
 				}
-			}
-			break;
-			
-		case 3 :
-			j = 1;
-			for(int i = 0; i< yongSan.size(); i++) {
-				if(yongSan.get(i).getMovieName().equals("나이트 레이더스")) {
-					System.out.println(j++ + ". " + yongSan.get(i));
-					temp.add(yongSan.get(i));
-				}
-				if(hongDae.get(i).getMovieName().equals("나이트 레이더스")) {
-					System.out.println(j++ + ". " + hongDae.get(i));
-					temp.add(hongDae.get(i));
-				}
-				if(gangNam.get(i).getMovieName().equals("나이트 레이더스")) {
-					System.out.println(j++ + ". " + gangNam.get(i));
-					temp.add(gangNam.get(i));
 
+				break outer;
+
+			case "2" :
+				System.out.println("----- 극장 선택 -----");
+				j = 1;
+				for(int i = 0; i< yongSan.size(); i++) {
+					if(yongSan.get(i).getMovieName().equals("나이트메어 앨리")) {
+						System.out.println(j++ + ". " + yongSan.get(i));
+						temp.add(yongSan.get(i));
+					}
+					if(hongDae.get(i).getMovieName().equals("나이트메어 앨리")) {
+						System.out.println(j++ + ". " + hongDae.get(i));
+						temp.add(hongDae.get(i));
+					}
+					if(gangNam.get(i).getMovieName().equals("나이트메어 앨리")) {
+						System.out.println(j++ + ". " + gangNam.get(i));
+						temp.add(gangNam.get(i));
+
+					}
 				}
+				break outer;
+
+			case "3" :
+				System.out.println("----- 극장 선택 -----");
+				j = 1;
+				for(int i = 0; i< yongSan.size(); i++) {
+					if(yongSan.get(i).getMovieName().equals("나이트 레이더스")) {
+						System.out.println(j++ + ". " + yongSan.get(i));
+						temp.add(yongSan.get(i));
+					}
+					if(hongDae.get(i).getMovieName().equals("나이트 레이더스")) {
+						System.out.println(j++ + ". " + hongDae.get(i));
+						temp.add(hongDae.get(i));
+					}
+					if(gangNam.get(i).getMovieName().equals("나이트 레이더스")) {
+						System.out.println(j++ + ". " + gangNam.get(i));
+						temp.add(gangNam.get(i));
+
+					}
+				}
+				break outer;
+
+			case "4" :
+				j = 1;
+				for(int i = 0; i< yongSan.size(); i++) {
+					if(yongSan.get(i).getMovieName().equals("안터벨룸")) {
+						System.out.println(j++ + ". " + yongSan.get(i));
+						temp.add(yongSan.get(i));
+					}
+					if(hongDae.get(i).getMovieName().equals("안터벨룸")) {
+						System.out.println(j++ + ". " + hongDae.get(i));
+						temp.add(hongDae.get(i));
+					}
+					if(gangNam.get(i).getMovieName().equals("안터벨룸")) {
+						System.out.println(j++ + ". " + gangNam.get(i));
+						temp.add(gangNam.get(i));
+					}
+				}
+				break outer;
+
+			case "0" : return null;
+			default:
+				System.err.println("잘못 입력하셨습니다. 메인메뉴로 돌아갑니다.");
+				return null;
 			}
-			break;
-			
-		case 4 :
-			j = 1;
-			for(int i = 0; i< yongSan.size(); i++) {
-				if(yongSan.get(i).getMovieName().equals("안터벨룸")) {
-					System.out.println(j++ + ". " + yongSan.get(i));
-					temp.add(yongSan.get(i));
-				}
-				if(hongDae.get(i).getMovieName().equals("안터벨룸")) {
-					System.out.println(j++ + ". " + hongDae.get(i));
-					temp.add(hongDae.get(i));
-				}
-				if(gangNam.get(i).getMovieName().equals("안터벨룸")) {
-					System.out.println(j++ + ". " + gangNam.get(i));
-					temp.add(gangNam.get(i));
-				}
-			}
-			break;
-			
-		case 0 : return null;
-		default:
-			System.out.println("잘못 입력하셨습니다.");
 		}
 		afterMovieChoice();
 		return completeMovieList.get(movieIndex++);
 	}
 	
-	// 2. 영화 선택 후 극장 선택 
-	public void afterMovieChoice() {
-		
-		outer :
-		while(true) {
-			System.out.print(">> 극장을 선택해 주세요 : ");
-			int lastTheaterChoice = sc.nextInt();
-			if(lastTheaterChoice <= temp.size()) {
-				switch(lastTheaterChoice) {
-				case 1 :
-					completeMovieList.add(temp.get(0));
-					System.out.println(completeMovieList.get(movieIndex));
-					temp.clear();
-					break outer;
-				case 2 :
-					completeMovieList.add(temp.get(1));
-					System.out.println(completeMovieList.get(movieIndex));
-					temp.clear();
-					break outer;
-				case 3 :
-					completeMovieList.add(temp.get(2));
-					System.out.println(completeMovieList.get(movieIndex));
-					temp.clear();
-					break outer;
-				default : 
-					System.out.println("잘못 입력하셨습니다.");
-					continue outer;
-				}
-			} else {
-				System.out.println("잘못된 입력입니다.");
-				continue outer;
-			}
-		}
-	}
+	   // 2. 영화 선택 후 극장 선택 
+    public void afterMovieChoice() {
+    	
+        String lastTheaterChoice;
+
+        while(true) {
+        	try {
+        		System.out.print(">> 극장을 선택해주세요 : ");
+        		lastTheaterChoice = sc.next();            
+        		if(Integer.parseInt(lastTheaterChoice) > 0 && Integer.parseInt(lastTheaterChoice) <= temp.size())
+        			break;
+        		else
+        			System.err.println("선택지에 있는 값을 입력해주세요.");
+        	} catch(NumberFormatException e) {
+        		System.err.println("숫자만 입력해주세요.");
+        		continue;
+        	}
+        }
+        switch(lastTheaterChoice) {
+        case "1" :
+        	completeMovieList.add(temp.get(0));
+        	System.out.println(completeMovieList.get(movieIndex));
+        	temp.clear();
+        	break;
+        case "2" :
+        	completeMovieList.add(temp.get(1));
+        	System.out.println(completeMovieList.get(movieIndex));
+        	temp.clear();
+        	break;
+        case "3" :
+        	completeMovieList.add(temp.get(2));
+        	System.out.println(completeMovieList.get(movieIndex));
+        	temp.clear();
+        	break;
+        }
+    }
 	
 	/**
 	 *  main menu 3. 극장별 예매하기
 	 */
-	public Movie bookingByTheater(int choiceTheater) {
-
-		int j;
-		switch(choiceTheater) {
-		//용산
-		case 1 : 
-			j = 1;
-			for(int i = 0; i < yongSan.size(); i++) {
-				System.out.println(j++ + ". " +yongSan.get(i));
-				temp.add(yongSan.get(i));
-			}
-			break;
-
-		//홍대
-		case 2 : 
-			j = 1;
-			for(int i = 0; i < hongDae.size(); i++) {
-				System.out.println(j++ + ". " +hongDae.get(i));
-				temp.add(hongDae.get(i));
-			}
-			break;
-			
-		//강남
-		case 3 :
-			j = 1;
-			for(int i = 0; i < gangNam.size(); i++) {
-				System.out.println(j++ + ". " +gangNam.get(i));
-				temp.add(gangNam.get(i));
-			}
-			break;
-		case 0 : return null;
-		}
+	public Movie bookingByTheater(String choiceTheater) {
 		
+		outer:
+		while(true) {
+			int j;
+			switch(choiceTheater) {
+			//용산
+			case "1" : 
+				System.out.println("---- 영화선택 ----");
+				j = 1;
+				for(int i = 0; i < yongSan.size(); i++) {
+					System.out.println(j++ + ". " +yongSan.get(i));
+					temp.add(yongSan.get(i));
+				}
+				break outer;
+
+				//홍대
+			case "2" : 
+				System.out.println("---- 영화선택 ----");
+				j = 1;
+				for(int i = 0; i < hongDae.size(); i++) {
+					System.out.println(j++ + ". " +hongDae.get(i));
+					temp.add(hongDae.get(i));
+				}
+				break outer;
+
+				//강남
+			case "3" :
+				System.out.println("---- 영화선택 ----");
+				j = 1;
+				for(int i = 0; i < gangNam.size(); i++) {
+					System.out.println(j++ + ". " +gangNam.get(i));
+					temp.add(gangNam.get(i));
+				}
+				break outer;
+			case "0" : return null;
+			default : System.err.println("잘못 입력하셨습니다. 메인메뉴로 돌아갑니다."); return null;
+			}
+		}
 			
 		afterTheaterChoice();
 		return completeMovieList.get(movieIndex++);
@@ -244,44 +259,50 @@ public class MovieManager {
 	}
 	
 	//3. 극장선택 후 영화 선택 
-	public Movie afterTheaterChoice() {
+	public void afterTheaterChoice() {
 		
-		outer : 
+		String lastMovieChoice;
+		
 		while(true) {
-			System.out.print(">> 영화를 선택해 주세요 : ");
-			int lastMovieChoice = sc.nextInt();
-			if(lastMovieChoice <= temp.size()) {
-				switch(lastMovieChoice){
-				case 1 :
-					completeMovieList.add(temp.get(0));
-					System.out.println(completeMovieList.get(movieIndex));
+			try {
+				System.out.print(">> 영화를 선택해주세요 : ");
+				lastMovieChoice = sc.next();
+				if(Integer.parseInt(lastMovieChoice) <= temp.size() &&  
+					Integer.parseInt(lastMovieChoice) > 0) {
 					break;
-				case 2 :
-					completeMovieList.add(temp.get(1));
-					System.out.println(completeMovieList.get(movieIndex));
-					break;
-				case 3 :
-					completeMovieList.add(temp.get(2));
-					System.out.println(completeMovieList.get(movieIndex));
-					break;
-				default : System.out.println("잘못 입력하셨습니다.");
-					continue outer;
 				}
-			} else {
-				System.out.println("잘못된 입력입니다.");
-				continue outer;
+				else
+					System.err.println("선택지에 있는 값을 입력해주세요.");
+			} catch(NumberFormatException e) {
+				System.err.println("숫자만 입력하세요.");
 			}
+		}
+		switch(lastMovieChoice){
+		case "1" :
+			completeMovieList.add(temp.get(0));
+			System.out.println(completeMovieList.get(movieIndex));
+			temp.clear();
+			break;
+		case "2" :
+			completeMovieList.add(temp.get(1));
+			System.out.println(completeMovieList.get(movieIndex));
+			temp.clear();
+			break;
+		case "3" :
+			completeMovieList.add(temp.get(2));
+			System.out.println(completeMovieList.get(movieIndex));
+			temp.clear();
 			break;
 		}
-		return completeMovieList.get(movieIndex);
+			
 	}
 	
 	// main 2, 3번 출력용
 	public void nowBookingPrint() {
 		
-		System.out.println("********예매 내역*********");
+		System.out.println("*********예매 내역*********");
         for(int i = 0; i < completeMovieList.size(); i++) {
-            System.out.println(completeMovieList.get(i));
+        	System.out.println((i + 1) + ". " +completeMovieList.get(i));
             System.out.println("좌석 : " + selectSeat.get(i));
         }
 		
@@ -291,10 +312,7 @@ public class MovieManager {
 		selectSeat.add(selectedSeat);
 		seatIndex++;
 	}
-	//0 A2
-	//1 A3
-	//2 A4 -> n
-	//3
+	
 	public void deleteBooking(int realIndex) {
 		selectSeat.remove(realIndex);
 		seatIndex--;
@@ -305,20 +323,21 @@ public class MovieManager {
 	/**
 	 * main 4. 나의 예매내역
 	 */
-	public void myBooking(int choiceMyBooking) {
+	public boolean myBooking(String choiceMyBooking) {
+		
 		outer:
 		while(true) {
 			switch(choiceMyBooking) {
-			case 1:
+			case "1":
 				if(completeMovieList.isEmpty()) {
 					System.out.println("예매 내역이 없습니다.");
 					break outer;
 				}
 				else{
 					nowBookingPrint();
-					break outer;
 				}
-			case 2:
+				return true;
+			case "2":
 				if(completeMovieList.isEmpty()) {
 					System.out.println("예매 내역이 없습니다.");
 					break outer;
@@ -327,25 +346,47 @@ public class MovieManager {
 					nowBookingPrint();
 					//삭제할 내역을 선택하세요
 					System.out.println("--------------------");
-					System.out.print(">> 삭제할 내역을 선택하세요 : ");
-					int choiceRemove = sc.nextInt();
-					
+
+					int choiceRemove = 0;
+					String tempchoiceRemove;
+
+					while(true) {
+						try {
+							System.out.print(">> 삭제할 내역을 선택하세요 : ");
+							tempchoiceRemove = sc.next();
+
+							if(Integer.parseInt(tempchoiceRemove) > 0 &&
+									Integer.parseInt(tempchoiceRemove) <= completeMovieList.size()) {
+								choiceRemove = Integer.parseInt(tempchoiceRemove);
+								break;
+							}
+							else
+								System.err.println("선택지에 있는 값을 입력해주세요.");
+						} catch(NumberFormatException e) {
+							System.err.println("숫자만 입력하세요.");
+							continue;
+						}
+					}
+
+
 					//삭제진행
 					Movie deleteMovie = completeMovieList.get(choiceRemove-1);
-                    char rowSeat = selectSeat.get(choiceRemove-1).charAt(0);
-                    int colSeat = Character.getNumericValue(selectSeat.get(choiceRemove-1).charAt(1));
-                    deleteMovie.getSeats()[rowSeat - 65][colSeat - 1] = "︎☐ ";
+					char rowSeat = selectSeat.get(choiceRemove-1).charAt(0);
+					int colSeat = Character.getNumericValue(selectSeat.get(choiceRemove-1).charAt(1));
+					deleteMovie.getSeats()[rowSeat - 65][colSeat - 1] = "︎☐ ";
 					completeMovieList.remove(choiceRemove - 1);
 					selectSeat.remove(choiceRemove-1);
 					movieIndex--;
 					
-					
-					break outer;
+					System.out.println(choiceRemove + "번 예매 취소가 완료되었습니다.");
 				}
-			case 0: return;
-			default : System.out.println("잘못 입력하셨습니다.");
+					
+				return false;
+			case "0": return true;
+			default : System.err.println("잘못 입력하셨습니다. 메인메뉴로 돌아갑니다."); return true;
 			}
 		}
+		return true;
 	}
 	
 	
