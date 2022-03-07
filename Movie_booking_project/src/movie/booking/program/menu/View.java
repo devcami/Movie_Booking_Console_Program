@@ -100,7 +100,7 @@ public class View {
 				int answer = JOptionPane.showConfirmDialog(null, "종료하시겠습니까?", "confirm",JOptionPane.YES_NO_OPTION );
 				if(answer == JOptionPane.YES_OPTION){
 					//사용자가 yes를 눌렀을 떄
-					System.out.println("--------이용해주셔서 감사합니다.--------");
+					System.out.println("\n-------------이용해주셔서 감사합니다.-------------");
 					return;
 				} else{
 					//사용자가 Yes 외 값 입력시
@@ -108,7 +108,7 @@ public class View {
 				}
 			//로그아웃	
 			case "0" :  
-				System.out.println("-------로그아웃 되었습니다.--------");
+				System.out.println("\n---------------로그아웃 되었습니다---------------");
 				return;
 
 			default : 

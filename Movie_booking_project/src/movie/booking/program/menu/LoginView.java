@@ -22,7 +22,7 @@ public class LoginView {
 	List<Member> loginCheck = new ArrayList<>();
 	Member deleteCheck = new Member();
 			
-    String mainString = "\n============ 🖥 Login Menu 🖥  ============\n\n"
+    String mainString = "\n============= 🖥 Login Menu 🖥 =============\n\n"
     				  + "\t1. 로그인\n"
     				  + "\t2. 계정 등록\n"
     				  + "\t3. 계정 삭제\n"
@@ -31,7 +31,7 @@ public class LoginView {
     				  + "--------------------------------------------\n"
     				  + "\t➜ 메뉴 선택 : ";
     
-	public void mainMenu() {
+	public int mainMenu() {
 		while(true) {
 			System.out.print(mainString);
 			String choice = sc.next();
@@ -39,31 +39,30 @@ public class LoginView {
 			switch(choice) {
 			//login
 			case "1" :
-				System.out.println("---로그인---");
-				System.out.print("ID : ");
+				System.out.println("\n================== 로그인 ==================");
+				System.out.print("\t➜ ID : ");
 				String inputId = sc.next();
-				System.out.print("Password : ");
+				System.out.print("\t➜ Password : ");
 				String inputPw = sc.next();
 				try {
 					loginCheck = FileUtil.readFile(new File(filePath, fileName)); 
-					System.out.println(loginCheck.get(0));
 					for(int i = 0; i < loginCheck.size(); i++) {
 						if(inputId.equals(loginCheck.get(i).getId()) &&
 								inputPw.equals(loginCheck.get(i).getPassword())){
-							System.out.println("로그인 성공");
+							System.out.println("\t🎶 로그인 성공 🎶");
+							return 1;
 						} else {
-							System.out.println("아이디, 비밀번호를 체크하시오");
+							System.err.println("\t❗아이디, 비밀번호를 체크하세요❗");
+							return 2;
 						}
 					}
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				//영화 예매창으로
-				return;
 
 			//add
 			case "2" :
-				System.out.println("---회원 등록---");
+				System.out.println("\n================= 회원 등록 =================");
 				lm.addMember(inputInfo());
 				try {
 					FileUtil.writeFile(filePath, fileName, lm.getMembers());
@@ -74,7 +73,7 @@ public class LoginView {
 				
 			//remove
 			case "3" :
-				System.out.println("---회원 삭제---");
+				System.out.println("\n================= 회원 삭제 =================");
 				System.out.print("\t➜ 삭제할 아이디를 입력해주세요: ");
 				String deleteId = sc.next();
 				System.out.print("\t➜ 비밀번호를 입력해주세요.");
@@ -94,29 +93,34 @@ public class LoginView {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				break; 
+				
+			//등록된 계정 조회
+			case "4" :
+				System.out.println("\n============= 등록된 회원 조회 =============");
+				System.out.print("\t➜ ID를 입력해주세요 : ");
+				String searchId = sc.next();
+				try {
+					loginCheck = FileUtil.readFile(new File(filePath, fileName));
+					if(loginCheck.isEmpty()) {
+						System.out.println("\t등록되지 않은 회원입니다.");
+					} else{
+						for(int i = 0; i < loginCheck.size(); i++) {
+							if(searchId.equals(loginCheck.get(i).getId())){
+								System.out.println("\n\t" + searchId + "님은 등록된 회원입니다.");
+								break;
+							} else {
+								System.out.println("\t등록되지 않은 회원입니다.");
+								break;
+							}
+						}
+					}
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				break;
 				
-	            //등록된 계정 조회
-	            case "4" :
-	                System.out.println("\n============= 등록된 회원 조회 =============");
-	                System.out.print("\t➜ ID를 입력해주세요 : ");
-	                String searchId = sc.next();
-	                try {
-	                	loginCheck = FileUtil.readFile(new File(filePath, fileName));
-	                    for(int i = 0; i < loginCheck.size(); i++) {
-	                        if(searchId.equals(loginCheck.get(i).getId())){
-	                            System.out.println("\n\t" + searchId + "님은 등록된 회원입니다.");
-	                        } else {
-	                            System.out.println("\t등록되지 않은 회원입니다.");
-	                            break;
-	                        }
-	                    }
-	                } catch (IOException e1) {
-	                    e1.printStackTrace();
-	                }
-	                break;
-				
-			case "9" : return;
+			case "9" : return 0;
 			default : System.err.println("❗️️선택지에 있는 번호만 입력해주세요❗️"); continue;
 				
 			}

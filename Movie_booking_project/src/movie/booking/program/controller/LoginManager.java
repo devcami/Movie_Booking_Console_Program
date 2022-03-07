@@ -69,15 +69,15 @@ public class LoginManager {
         return result;
     }
 	
-	public void printInfo() {
-		System.out.println("----------------------------------------");
-		for(int i = 0; i < members.size(); i++) {
-			System.out.println("회원 번호 : " + members.get(i).getMemberNo() +
-							 "\nID : " + members.get(i).getId() +
-							 "\n이름 : " + members.get(i).getName());
-		}
-		System.out.println("----------------------------------------");
-	}
+//	public void printInfo() {
+//		System.out.println("----------------------------------------");
+//		for(int i = 0; i < members.size(); i++) {
+//			System.out.println("회원 번호 : " + members.get(i).getMemberNo() +
+//							 "\nID : " + members.get(i).getId() +
+//							 "\n이름 : " + members.get(i).getName());
+//		}
+//		System.out.println("----------------------------------------");
+//	}
 	
 	
 }
