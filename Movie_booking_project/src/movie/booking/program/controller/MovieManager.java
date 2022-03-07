@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 import movie.booking.program.vo.Movie;
 
 /**
@@ -20,6 +22,8 @@ public class MovieManager {
 	List<Movie> temp = new ArrayList<>();
 	List<String> selectSeat = new ArrayList<>();
 	List<Movie> completeMovieList = new ArrayList<>(); 
+	
+	private String str = "";
     int movieIndex = 0;
     int seatIndex = 0;
 	
@@ -86,7 +90,7 @@ public class MovieManager {
 			switch(choiceMovie) {
 
 			case "1" :
-				System.out.println("----- 극장 선택 -----");
+				System.out.println("\n================ 📽 극장 선택 =================\n\n");
 				j = 1;
 				for(int i = 0; i < yongSan.size(); i++) {
 					if(yongSan.get(i).getMovieName().equals("더 배트맨")) {
@@ -106,7 +110,7 @@ public class MovieManager {
 				break outer;
 
 			case "2" :
-				System.out.println("----- 극장 선택 -----");
+				System.out.println("\n================ 📽 극장 선택 =================\n\n");
 				j = 1;
 				for(int i = 0; i< yongSan.size(); i++) {
 					if(yongSan.get(i).getMovieName().equals("나이트메어 앨리")) {
@@ -126,7 +130,7 @@ public class MovieManager {
 				break outer;
 
 			case "3" :
-				System.out.println("----- 극장 선택 -----");
+				System.out.println("\n================ 📽 극장 선택 =================\n\n");
 				j = 1;
 				for(int i = 0; i< yongSan.size(); i++) {
 					if(yongSan.get(i).getMovieName().equals("나이트 레이더스")) {
@@ -147,6 +151,7 @@ public class MovieManager {
 
 			case "4" :
 				j = 1;
+				System.out.println("\n================ 📽 극장 선택 =================\n\n");
 				for(int i = 0; i< yongSan.size(); i++) {
 					if(yongSan.get(i).getMovieName().equals("안터벨룸")) {
 						System.out.println(j++ + ". " + yongSan.get(i));
@@ -180,7 +185,7 @@ public class MovieManager {
 
         while(true) {
         	try {
-        		System.out.print(">> 극장을 선택해주세요 : ");
+        		System.out.print("➜ 극장 선택 : ");
         		lastTheaterChoice = sc.next();            
         		if(Integer.parseInt(lastTheaterChoice) > 0 && Integer.parseInt(lastTheaterChoice) <= temp.size())
         			break;
@@ -221,7 +226,7 @@ public class MovieManager {
 			switch(choiceTheater) {
 			//용산
 			case "1" : 
-				System.out.println("---- 영화선택 ----");
+				System.out.println("\n================ 📽 극장 선택 =================\n\n");
 				j = 1;
 				for(int i = 0; i < yongSan.size(); i++) {
 					System.out.println(j++ + ". " +yongSan.get(i));
@@ -231,7 +236,7 @@ public class MovieManager {
 
 				//홍대
 			case "2" : 
-				System.out.println("---- 영화선택 ----");
+				System.out.println("\n================ 📽 극장 선택 =================\n\n");
 				j = 1;
 				for(int i = 0; i < hongDae.size(); i++) {
 					System.out.println(j++ + ". " +hongDae.get(i));
@@ -241,7 +246,7 @@ public class MovieManager {
 
 				//강남
 			case "3" :
-				System.out.println("---- 영화선택 ----");
+				System.out.println("\n================ 📽 극장 선택 =================\n\n");
 				j = 1;
 				for(int i = 0; i < gangNam.size(); i++) {
 					System.out.println(j++ + ". " +gangNam.get(i));
@@ -265,7 +270,7 @@ public class MovieManager {
 		
 		while(true) {
 			try {
-				System.out.print(">> 영화를 선택해주세요 : ");
+				System.out.print("➜ 영화 선택 : ");
 				lastMovieChoice = sc.next();
 				if(Integer.parseInt(lastMovieChoice) <= temp.size() &&  
 					Integer.parseInt(lastMovieChoice) > 0) {
@@ -300,11 +305,17 @@ public class MovieManager {
 	// main 2, 3번 출력용
 	public void nowBookingPrint() {
 		
-		System.out.println("*********예매 내역*********");
-        for(int i = 0; i < completeMovieList.size(); i++) {
-        	System.out.println((i + 1) + ". " +completeMovieList.get(i));
-            System.out.println("좌석 : " + selectSeat.get(i));
-        }
+	     for(int i = 0; i < completeMovieList.size(); i++) {      
+	         String temp = (i+1 + ". " + completeMovieList.get(i) 
+	         + "\n좌석: " + selectSeat.get(i) + "\n");
+	         
+	         if(str.contains(temp))
+	            continue;
+	         else
+	            str += temp;
+	      }
+	      JOptionPane.showMessageDialog(null, str, "현재 예매 내역", JOptionPane.INFORMATION_MESSAGE);
+        
 		
 	}
 
@@ -345,14 +356,14 @@ public class MovieManager {
 				else{
 					nowBookingPrint();
 					//삭제할 내역을 선택하세요
-					System.out.println("--------------------");
+					System.out.println("--------------------------------------------");
 
 					int choiceRemove = 0;
 					String tempchoiceRemove;
 
 					while(true) {
 						try {
-							System.out.print(">> 삭제할 내역을 선택하세요 : ");
+							System.out.print("➜ 삭제할 내역을 선택하세요 : ");
 							tempchoiceRemove = sc.next();
 
 							if(Integer.parseInt(tempchoiceRemove) > 0 &&

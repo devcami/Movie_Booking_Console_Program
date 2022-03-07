@@ -2,21 +2,22 @@ package movie.booking.program.vo;
 
 
 /**
- *	ID, Password, 총 회원 수
+ *	회원 번호, ID, Password, 이름
  *
  */
 public class Member {
 	
-
+	private int memberNo;
 	private String id;
 	private String password;
+	private String name;
 	
-	public Member() {
+	public int getMemberNo() {
+		return memberNo;
 	}
 
-	public Member(String id, String password) {
-		this.id = id;
-		this.password = password;
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
 	}
 
 	public String getId() {
@@ -34,14 +35,21 @@ public class Member {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 	
-	//로그인확인
-	public boolean isLogin(String id, String password) {
-		if(this.id.equals(id) && this.password.equals(password)) {
-			return true;
-		} else return false;
+	public String getName() {
+		return name;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void printInfo() {
+		System.out.println("회원번호 : " + memberNo);
+		System.out.println("이름 : " + name);
+		System.out.println("ID : " + id);
+	}
+	
 	
 	
 	
