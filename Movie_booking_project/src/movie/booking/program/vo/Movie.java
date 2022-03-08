@@ -11,12 +11,6 @@ public class Movie {
 	private String theater;
 	private int room;
 	private int ageLimit;
-	private String[][] seats = {{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
-								{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
-								{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
-								{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
-								{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "},
-								{"☐ ", "☐ ", "☐ ", "☐ ", "☐ ", "☐ "}};
 
 
 	public Movie() {
@@ -72,13 +66,6 @@ public class Movie {
 		this.ageLimit = ageLimit;
 	}
 
-	public String[][] getSeats() {
-		return seats;
-	}
-
-	public void setSeats(String[][] seats) {
-		this.seats = seats;
-	}
 
     @Override
     public String toString() {

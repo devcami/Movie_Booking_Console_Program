@@ -2,18 +2,28 @@ package movie.booking.program.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import movie.booking.program.vo.Member;
+import movie.booking.program.vo.Movie;
+import movie.booking.program.vo.Seats;
 
 public class FileUtil {
+	
+    private String filePath = "/Users/camilee/Documents/dev/";
+    private String fileName = "membersInfo.txt";
+    List<Member> nowId = new ArrayList<>();
 	
 	/**
 	 * 회원정보 저장 파일
@@ -32,6 +42,47 @@ public class FileUtil {
 		}
 		return memberList;
 	}
+	/**
+	 * 영화 내역 저장 List
+	 */
+	public static void writeMovieFile(String dir, String name, Map<String, Movie> movieMap, String key) throws IOException{
+		OutputStream os = null;
+		try {
+			File file = new File(dir);
+			
+			//저장할 디렉토리가 존재하지 않으면 생성
+			if(!file.exists()) {
+				file.mkdir();
+			}
+			
+			File outFile = new File(dir,name);
+			
+			//파일에 String값 입력
+			os = new BufferedOutputStream(new FileOutputStream(outFile));
+			
+			String writeString = 
+					movieMap.keySet() + ","
+					+ movieMap.get(key).getMovieName() + ","
+					+ movieMap.get(key).getMovieTime() + ","
+					+ movieMap.get(key).getTheater() + ","
+					+ movieMap.get(key).getRoom() + ","
+					+ movieMap.get(key).getAgeLimit() + "\n";
+			for(int i = 0; i < movieMap.size(); i++) {
+				//저장한 string -> byte배열
+				byte[] byteArr = writeString.getBytes();
+				
+				os.write(byteArr);
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				if(os != null) os.close();
+			} catch(Exception e) {
+			}
+		}
+	}
 
 	/**
 	 * 회원정보 저장 List 
@@ -47,11 +98,6 @@ public class FileUtil {
 			}
 			
 			File outFile = new File(dir,name);
-			
-			//파일이 존재한다면 삭제
-			if(outFile.exists()) {
-				outFile.delete();
-			}
 			
 			//파일에 String값 입력
 			os = new BufferedOutputStream(new FileOutputStream(outFile));
@@ -108,5 +154,141 @@ public class FileUtil {
 		}
 		
 	}
+	
+	public static void writeSeat(String dir, String name, String[][] s) throws IOException {
+		
+		File file = new File(dir, name);
+		
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
+			for(int i = 0; i < 6; i++) {
+				for(int j = 0; j < 6; j++) {
+					bw.write(s[i][j] + ",");
+				}
+					bw.write("\n");
+			}
+
+		}
+	}
+	
+    public static void readSeat(File file, Seats s) throws IOException{
+//      List<Member> memberList = new ArrayList<>();
+      BufferedReader br = new BufferedReader(new FileReader(file));
+      try {
+          //파일에서 읽어온 정보를 배열에 저장
+          String data;
+          char col = 'A';
+          
+          String[] writeString = new String[6];
+          String[][] seats = s.getSeats();
+          
+          int i = 0;
+          while((data = br.readLine()) != null) {
+              
+              writeString = data.split(",");
+              System.out.print("     " +(char)(col++) + "열 ");
+
+              for(int j = 0; j < 6; j++) {
+                  //writeStirng[0,1,2,3,4,5] = [◼☐☐☐☐☐]
+                  System.out.print(" " + writeString[j]);
+                  seats[i][j] = writeString[j];
+              }
+              i++;
+              System.out.println();
+              
+          }
+          
+              
+      } 
+      finally {
+          br.close();
+      }
+      
+      
+  }
+    
+    public static List<String> readDelete(File file) throws IOException {
+        
+        List<String> movieList = new ArrayList<>();
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(file))){
+            String data;
+            String str ="";
+            int index = 1;
+            
+            while((data = br.readLine()) != null) {
+            	str += (data + "\n");
+            	if(index % 3 == 0) {
+            		movieList.add(str);
+            		str = "";
+            	}
+            	index++;
+            }
+            
+        }
+        
+        return movieList;
+        
+    }
+    
+    public String checkingFile(int memberNo) {
+    	
+		String name = "";
+		
+		try {
+		nowId = readFile(new File(filePath, fileName));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+	
+		for(int i = 0; i < nowId.size(); i++) {
+			if(nowId.get(i).getMemberNo() == memberNo) {
+				name = ("/Users/camilee/Documents/dev/" + nowId.get(i).getId() + "_movieList.txt");
+				break;
+				}
+			}
+	
+		return name;
+    }
+    
+    public void finalwriteSeat(Movie selectedMovie, Seats s) {
+    	
+		try {
+			writeSeat("/Users/camilee/Documents/dev/",
+					"seats" + selectedMovie.getRoom() + ".txt"
+					,s.getSeats());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+    }
+    
+    public int indexmaker(int memberNo) {
+    	int index = 1;
+    	String name = checkingFile(memberNo);
+    	File f = new File(name);
+    	int i = 1;
+    	try(BufferedReader br = new BufferedReader(new FileReader(f))){
+    		String data = "";
+    		String str = "";
+            while((data = br.readLine()) != null) {
+            	str += (data + "\n");
+            	if(i % 3 == 0) {
+            		index++;
+            	}
+            	i++;
+            	
+            }
+            } catch (FileNotFoundException e) {
+            	e.printStackTrace();
+            } catch (IOException e) {
+            	e.printStackTrace();
+            }
+    	
+    	return index;
+    	
+    }
+//    public int writeIndex()
+	
 
 }
