@@ -230,7 +230,7 @@ public class FileUtil {
         
     }
     
-    public String checkingFile(int memberNo) {
+    public String setFileName(int memberNo) {
     	
 		String name = "";
 		
@@ -265,7 +265,7 @@ public class FileUtil {
     
     public int indexmaker(int memberNo) {
     	int index = 1;
-    	String name = checkingFile(memberNo);
+    	String name = setFileName(memberNo);
     	File f = new File(name);
     	int i = 1;
     	try(BufferedReader br = new BufferedReader(new FileReader(f))){

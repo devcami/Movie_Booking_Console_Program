@@ -85,12 +85,13 @@ public class LoginView {
 				String deletepwd = sc.next();
 				
 				try {
-					for(int i = 0; i < lm.getMembers().size(); i++) {
+					for(int i = 0; i < lm.getMembers().size();) {
 						if(FileUtil.readFile(new File(filePath, fileName)).get(i).getId().equals(deleteId)
 							&& FileUtil.readFile(new File(filePath, fileName)).get(i).getPassword().equals(deletepwd)) {
 							int deleteNo = FileUtil.readFile(new File(filePath, fileName)).get(i).getMemberNo();
 							lm.removeMember(deleteNo);
 							System.out.println("\n삭제가 완료되었습니다.");
+							break;
 						}
 						else {
 							System.err.println("\n  ❌존재하지 않는 회원입니다.❌");

@@ -29,8 +29,6 @@ public class MovieManager {
     List<Member> nowId = new ArrayList<>();
     List<Movie> tempMovie = new ArrayList<>();
     
-	private String str = "";
-	
 	private List<Movie> yongSan = new ArrayList<>();
 	private List<Movie> hongDae = new ArrayList<>();
 	private List<Movie> gangNam = new ArrayList<>();
@@ -41,8 +39,6 @@ public class MovieManager {
     private int movieIndex = 0;
     private int seatIndex = 0;
     
-    private String filePath = "/Users/camilee/Documents/dev/";
-    private String fileName = "membersInfo.txt";
     FileUtil fileUtil = new FileUtil();
     
 	public MovieManager() {
@@ -323,12 +319,11 @@ public class MovieManager {
 	
 	// main 2, 3번 출력용
 	public void nowBookingPrint(int memberNo) {
-		String name = "";
 		String pastList = "";
 		BufferedReader br = null;
 		
 		// 기존 파일 있는지 확인
-		File inFile = new File(fileUtil.checkingFile(memberNo));
+		File inFile = new File(fileUtil.setFileName(memberNo));
 		
 		try {
 			br = new BufferedReader(new FileReader(inFile));
@@ -371,23 +366,14 @@ public class MovieManager {
 	 */
 	public void movieFile(int memberNo) {
 
-		String name = "";
 		String pastList = "";
 		
-		File f = new File(fileUtil.checkingFile(memberNo));
+		File f = new File(fileUtil.setFileName(memberNo));
 		
 		if(f.exists()) {
-			int index = 1;
-			int num = 0;
 			try(BufferedReader br = new BufferedReader(new FileReader(f));) {
 				String data = null;
 				while((data = br.readLine()) != null) {
-					
-					if(num%3 == 0) {
-						pastList += (index++ + data + "\n");
-						num++;
-						continue;
-					}
 					pastList += (data + "\n");
 				}
 			} catch (IOException e) {
@@ -395,12 +381,12 @@ public class MovieManager {
 			}
 			
 			try(BufferedWriter bw = new BufferedWriter(new FileWriter(f));){
-				bw.write(pastList);
 				int i = completeMovieList.size() - 1;
 				
-				String nowList = (index + ". " + "🎞" + completeMovieList.get(i) 
-				  + "\n좌석: " + selectSeat.get(i) + "\n");
-
+				String nowList = (Integer.toString(i+1) + ". " + completeMovieList.get(i) 
+                + "\n좌석: " + selectSeat.get(i) + "\n");
+				
+				bw.write(pastList);
 				bw.write(nowList);	
 
 				
@@ -411,11 +397,10 @@ public class MovieManager {
 		
 		else {
 			try(BufferedWriter bw = new BufferedWriter(new FileWriter(f));) {
-
 				String nowList = "";
 				for(int i = 0; i < completeMovieList.size(); i++) {		
-					String temp = ("🎞" + completeMovieList.get(i) 
-					+ "\n좌석: " + selectSeat.get(i) + "\n");
+					String temp = (i+1 + ". " + completeMovieList.get(i) 
+                    + "\n좌석: " + selectSeat.get(i) + "\n");
 					
 					if(nowList.contains(temp))
 						continue;
@@ -436,9 +421,7 @@ public class MovieManager {
 	 */
 	public boolean myBooking(String choiceMyBooking, int memberNo, Seats s, Movie movie) {
 		
-		int index = 0;
-		
-		File f = new File(fileUtil.checkingFile(memberNo));
+		File f = new File(fileUtil.setFileName(memberNo));
 		
 		outer:
 		while(true) {
@@ -457,7 +440,7 @@ public class MovieManager {
 				
 			case "2":
 				
-				File f2 = new File(fileUtil.checkingFile(memberNo));
+				File f2 = new File(fileUtil.setFileName(memberNo));
 				
 				//파일 내 예매내역이 없다면
 				if(!f2.exists()) {
